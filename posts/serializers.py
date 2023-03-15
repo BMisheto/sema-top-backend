@@ -16,18 +16,20 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
 # Post serializers
 class PostsSerializer(serializers.ModelSerializer):
-    choices = ChoiceSerializer(many=True,read_only=True)
     user = UserSmallDetailSerializer(read_only=True)
+    choices = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = Post
         fields = "__all__"
         
     
-    def get_likes(self,obj):
-        likes = obj.like_set.all().count()
-        return likes
+    def get_choices(self,obj):
+        choices = obj.choice_set.all()
+        serializer = ChoiceSerializer(choices,many=True)
+        return serializer.data
     
+   
     
     
 

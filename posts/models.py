@@ -20,6 +20,11 @@ class Post(models.Model):
 
     def __str__(self):
         return str(self._id) + " | " + self.title
+    
+    @property
+    def choices(self):
+        return self.choice_set.all()
+    
 
 
 
